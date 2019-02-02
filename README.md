@@ -1,10 +1,10 @@
 # xmonad-config
 
-Hi friends.
+Hi friends. And maybe random strangers that are interested in my xmonad config!
 
 ## Getting Started
 
-First you will need to install some things.
+First you will need to install some things!
 
 ### Installing xmonad and related things
 
@@ -32,6 +32,8 @@ sudo cabal install --global yeganesh
 ```
 Install xmobar. Note that you can compile it with flags for various extensions. Because I use an xmobar thing to get wifi card info, I compile with iwlib.
 ```
+sudo apt-get install xmobar
+sudo apt-get install libiw-dev
 sudo cabal install  xmobar --flags="with_iwlib"
 ```
 
@@ -43,7 +45,7 @@ Put them in ~/.xmonad which is a directory you'll have to create yourself.
 
 Log out, click on the gear, select the one that says xmonad+gnome. It should work for the most part, you might need to set up some other stuff.
 
-Also, to get rid of the gnome-flashback panel:
+Also, to get rid of the gnome-flashback panel (you only ever need to do this once):
 ```
 dconf write /org/gnome/gnome-panel/layout/toplevel-id-list "['']"
 ```
