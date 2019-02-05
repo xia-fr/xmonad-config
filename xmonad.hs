@@ -8,11 +8,13 @@ import XMonad.Layout.NoBorders
 import XMonad.Layout.Renamed
 import XMonad.Layout.Tabbed
 import ReflectSilent
+import XMonad.Layout.PerWorkspace
 -- hooks
 import XMonad.Util.Run
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.SetWMName
+import XMonad.Util.EZConfig
 import XMonad.Hooks.ManageHelpers
 -- misc
 import qualified XMonad.StackSet as W
@@ -36,8 +38,8 @@ cCoral	= "#FF3D7F"
 myLauncher = "$(yeganesh -x)"
 
 -- MANAGE HOOKS --
-myHooks = myManageHook <+>
-	  manageDocks
+myHooks = manageDocks <+>
+	  myManageHook
 
 -- LAYOUT MANAGEMENT --
 myLayout = avoidStruts
@@ -68,7 +70,6 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) =
 	 , ((modm , xK_bar)             , spawn "gnome-terminal")
          , ((modm , xK_x)               , spawn "firefox")
          , ((modm , xK_f)               , spawn "nautilus")
-         , ((modm , xK_v)               , spawn "gvim")
          , ((modm , xK_Delete)          , spawn "gnome-system-monitor")
 	 , ((modm , xK_p)		, spawn myLauncher)
 	 , ((modm .|. shiftMask , xK_q)	, spawn "gnome-session-quit --power-off")
@@ -101,20 +102,30 @@ myXMob = "xmobar ~/.xmonad/xmobar.hs"
 myLogHook h = (dynamicLogWithPP $ myPP h)
   
 myPP h = xmobarPP
-  { ppCurrent		= xmobarColor cGreen "" . wrap "{" "}"
+  { ppCurrent		= xmobarColor cGreen "" . wrap "[" "]"
   , ppVisible		= xmobarColor cPink ""
   , ppTitle		= xmobarColor cPink ""
   , ppOutput		= hPutStrLn h
   }
+
+-- WORKSPACES --
+myWorkspaces = ["1","2"] ++ map show [3..9]
   
 -- MANAGE HOOKS --
-myManageHook = composeAll (
+-- 
+-- To find the property name associated with a program, use
+-- $ xprop | grep WM_CLASS
+-- and click on the client you're interested in.
+-- 
+myManageHook = composeAll
     [ manageHook gnomeConfig
 -- Unity 2d related
-    , className =? "Unity-2d-panel" --> doIgnore
-    , className =? "Unity-2d-launcher" --> doIgnore
+    , className =? "Unity-2d-panel" 	--> doIgnore
+    , className =? "Unity-2d-launcher" 	--> doIgnore
 -- more hooks:
-    ])
+    , className =? "Caprine"		--> doShift (myWorkspaces !! 1)
+    , className =? "Slack"		--> doShift (myWorkspaces !! 1)
+    ]
 
 -- THE MAIN THING THAT DOES THE THING --
 main = do
@@ -126,6 +137,7 @@ main = do
     , borderWidth 		= 1
     , normalBorderColor 	= "#000000"
     , focusedBorderColor 	= "#825f69" -- "#e73a6f" -- salmonish pink --  
+    , workspaces		= myWorkspaces
     , layoutHook 		= myLayout
     , keys       		= newKeys
     , mouseBindings		= myMouse
