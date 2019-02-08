@@ -1,0 +1,14 @@
+[Unit]
+Description = Lock screen when going to sleep/suspend
+
+[Service]
+User=%I
+Type=simple
+Environment=DISPLAY=:0
+ExecStart=/home/fei/.local/bin/i3lock-plant
+ExecStartPost=/bin/sleep 2
+TimeoutSec=infinity
+
+[Install]
+WantedBy=sleep.target
+WantedBy=suspend.target

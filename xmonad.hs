@@ -67,7 +67,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) =
              [
 	 -- Some standard keybindings
 	   ((modm , xK_Escape)	        , kill)  -- xK_grave -- another option
-	 , ((modm , xK_bar)             , spawn "gnome-terminal")
+	 , ((modm , xK_backslash)       , spawn "gnome-terminal")
          , ((modm , xK_x)               , spawn "firefox")
          , ((modm , xK_f)               , spawn "nautilus")
          , ((modm , xK_Delete)          , spawn "gnome-system-monitor")
