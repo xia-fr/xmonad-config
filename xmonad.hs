@@ -35,7 +35,7 @@ cCoral	= "#FF3D7F"
 -- LAUNCHER --
 -- Note: the cache for yeganesh is stored in ~/.local/share/yeganesh
 -- 	 so if an entry needs to be forgotten, that's where to go to delete it
-myLauncher = "$(yeganesh -x)"
+myLauncher = "$(yeganesh -x -- -nb black -fn inconsolata:size=10 -nf \\#DAD8A7 -sb black -sf \\#3FB8AF)"
 
 -- MANAGE HOOKS --
 myHooks = manageDocks <+>
