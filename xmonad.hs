@@ -32,6 +32,9 @@ cLinen	= "#DAD8A7"
 cPink	= "#FF9E9D"
 cCoral	= "#FF3D7F"
 
+-- WORKSPACES --
+myWorkspaces = ["1","2"] ++ map show [3..9]
+
 -- LAUNCHER --
 -- Note: the cache for yeganesh is stored in ~/.local/share/yeganesh
 -- 	 so if an entry needs to be forgotten, that's where to go to delete it
@@ -42,15 +45,21 @@ myHooks = manageDocks <+>
 	  myManageHook
 
 -- LAYOUT MANAGEMENT --
-myLayout = avoidStruts
-		( 
-	       reflectHoriz $ name "[ | ]" tiled
-	   ||| noBorders (fullscreenFull (name "[   ]" Full))
-	   ||| name "[===]" (tabbed shrinkText tabConfig)
-		)
+-- Puts it all together
+myLayout = avoidStruts $ reflectHoriz $ workspaceLayouts
+
+-- Per-workspace layouts, with tweak-ability for easy management
+workspaceLayouts =
+	onWorkspace "1" msgLayouts $
+	defaultLayouts
 	where
-	  name n = renamed [Replace n]
-	  tiled = Tall 1 (2/100) (1/2)
+		msgLayouts 	 = tabbedLayout
+		defaultLayouts 	 = tiledLayout ||| tabbedLayout ||| fullscreenLayout
+	
+		tiledLayout 	 = renamed [Replace "[ | ]"] (Tall 1 (2/100) (1/2))
+		tabbedLayout 	 = renamed [Replace "[===]"] (tabbed shrinkText tabConfig)
+		fullscreenLayout = renamed [Replace "[   ]"] (Full)
+
 
 -- Colors for text and backgrounds of each tab when in "Tabbed" layout.
 tabConfig = defaultTheme {
@@ -96,7 +105,6 @@ myMouse (XConfig {XMonad.modMask = modm}) = M.fromList $
 	 , ((modm .|. shiftMask, button1) , (\w -> focus w >> mouseResizeWindow w))
 	     ]
 
-
 -- XMOBAR STUFF --
 myXMob = "xmobar ~/.xmonad/xmobar.hs"
 myLogHook h = (dynamicLogWithPP $ myPP h)
@@ -107,9 +115,6 @@ myPP h = xmobarPP
   , ppTitle		= xmobarColor cPink ""
   , ppOutput		= hPutStrLn h
   }
-
--- WORKSPACES --
-myWorkspaces = ["1","2"] ++ map show [3..9]
   
 -- MANAGE HOOKS --
 -- 
@@ -123,8 +128,10 @@ myManageHook = composeAll
     , className =? "Unity-2d-panel" 	--> doIgnore
     , className =? "Unity-2d-launcher" 	--> doIgnore
 -- more hooks:
-    , className =? "Caprine"		--> doShift (myWorkspaces !! 1)
-    , className =? "Slack"		--> doShift (myWorkspaces !! 1)
+    , className =? "Thunderbird"	--> doShift (myWorkspaces !! 0)
+    , className =? "yakyak"		--> doShift (myWorkspaces !! 0)
+    , className =? "Caprine"		--> doShift (myWorkspaces !! 0)
+    , className =? "Slack"		--> doShift (myWorkspaces !! 0)
     ]
 
 -- THE MAIN THING THAT DOES THE THING --
