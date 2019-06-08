@@ -6,7 +6,7 @@ Config {
      font 	= "xft:inconsolata:size=10:antialias=true"
    , bgColor 	= "black"
    , fgColor 	= "#DAD8A7"
-   , position 	= Top
+   , position 	= TopP -3 0
    , border 	= NoBorder
    
    -- layout
@@ -47,8 +47,8 @@ Config {
                              , "--high"     , "#FF3D7F"
                              ] 30
 
-        -- battery monitor
-        , Run Battery        [ "--template" , "P: <acstatus>"
+	-- battery monitor 
+	, Run Battery        [ "--template" , "P: <acstatus>"
                              , "--Low"      , "10"        -- units: %
                              , "--High"     , "80"        -- units: %
                              , "--low"      , "#FF3D7F"
