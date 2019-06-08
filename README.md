@@ -105,23 +105,3 @@ make -j
 sudo make install
 ```
 
-### Where to put things + power management
-
-I have xmonad.hs configurated to call i3lock-plant (the screen locker) from:
-```
-~/.local/bin/i3lock-plant
-```
-
-If you also want the screen to lock automatically on suspend (in Gnome settings, I have suspend on lid close and suspend when on battery power after 25 minutes), you can use xss-lock!
-
-```
-sudo apt-get install xss-lock
-```
-To use it, place the following line into your startup programs:
-```
-xss-lock -- "/home/USER/.local/bin/i3lock-plant"
-```
-where USER is your username. You can find the list of startup programs by going to:
-```
-gnome-session-properties
-```
