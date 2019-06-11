@@ -84,17 +84,22 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) =
 	 -- Some standard keybindings
 	   ((modm , xK_Escape)	        , kill)  -- xK_grave -- another option
 	 , ((modm , xK_backslash)       , spawn "gnome-terminal")
-         , ((modm , xK_x)               , spawn "firefox")
-         , ((modm , xK_f)               , spawn "nautilus")
-         , ((modm , xK_Delete)          , spawn "gnome-system-monitor")
-	 , ((modm , xK_p)		, spawn myLauncher)
+     , ((modm , xK_x)               , spawn "firefox")
+     , ((modm , xK_f)               , spawn "nautilus")
+     , ((modm , xK_Delete)          , spawn "gnome-system-monitor")
+	 , ((modm , xK_p)		        , spawn myLauncher)
 	 , ((modm .|. shiftMask , xK_q)	, spawn "gnome-session-quit --power-off")
 	 , ((modm .|. shiftMask , xK_r) , spawn "gnome-session-quit --reboot")
 	 , ((modm .|. shiftMask , xK_f) , sendMessage ToggleStruts)
 
 	 -- Swaps the master window expand/shrink to correlate with reflected master
+     -- Also swaps the master window # incrementer so alt-period increases the
+     -- number of windows in the master area, and alt-comma decreases it
+     --     (which corresponds to the master window being on the right)
 	 , ((modm , xK_h)		, sendMessage Expand)
 	 , ((modm , xK_l)		, sendMessage Shrink)
+     , ((modm , xK_comma)   , sendMessage (IncMasterN (-1)))
+     , ((modm , xK_period)  , sendMessage (IncMasterN 1))
              ]
 -- Takes the union of default keys and custom keys, with custom keys
 -- having the ability to override defaults
