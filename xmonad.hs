@@ -186,4 +186,5 @@ main = do
 --
 -- Blacks:
 --      #1C1C1C
+--      #4E4E4E (dark gray for comments)
 
