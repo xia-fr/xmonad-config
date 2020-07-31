@@ -54,12 +54,13 @@ To get rid of the desktop icons and the issue with the gnome desktop drawing ove
 gsettings set org.gnome.gnome-flashback root-background true
 gsettings set org.gnome.gnome-flashback desktop false
 ```
-### Miscellaneous
-## Icon pack and fonts
+## Miscellaneous
+
+### Icon pack and fonts
 
 Install the papirus icon theme! Personally I am also particular to Inconsolata as a font.
 
-## Terminal appearance
+### Terminal appearance
 
 To import gnome terminal profile, run:
 ```
@@ -69,11 +70,11 @@ To get rid of the enormous headerbar,
 ```
 gsettings set org.gnome.Terminal.Legacy.Settings headerbar false
 ```
-## Git
+### Git
 ```
 sudo apt install git
 ```
-## Latex
+### Latex
 ```
 sudo apt install texlive texlive-latex-extra cm-super
 ```
@@ -81,7 +82,7 @@ Also for pdf viewer Zathura for integration with vim:
 ```
 sudo apt install zathura xdotool
 ```
-## Vim
+### Vim
 
 Put the .vimrc file in home directory.
 
@@ -92,11 +93,11 @@ curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
 ```
 Open vim and `:PlugInstall` to have vim-plug install plugins as listed in .vimrc.
 
-## Firefox
+### Firefox
 
 In preferences, density is `Compact` and `Title Bar` is checked.
 
-## Screenshots
+### Screenshots
 
 Disable the default keyboard shortcuts for screenshots, custom `gnome-screenshot` command:
 ```
