@@ -1,10 +1,8 @@
-# xmonad-config
-
-Hi friends. And maybe random strangers that are interested in my xmonad config!
+# gnome + xmonad config (for Ubuntu 20.04 LTS)
 
 ## Getting Started
 
-First you will need to install some things!
+We begin here with a fresh install of Ubuntu 20.04 LTS. After doing some basic updating of packages, etc., we just need to install some things to get going with gnome + xmonad.
 
 ### Installing xmonad and related things
 
@@ -19,14 +17,15 @@ sudo apt-get install gnome-session-xmonad
 
 ### Additional things
 
-These are some additional things that you'll need to get my xmonad config + xmobar config to work. I think I got all of them but there may be something I'm missing.
+These are some additional things that you'll need to get the xmonad config + xmobar config to work.
 
 Start by getting cabal and suckless-tools. Suckless-tools gives you dmenu, cabal lets you install xmobar and yeganesh (useful wrapper thing for dmenu).
 ```
 sudo apt-get install suckless-tools cabal-install
 sudo cabal update
 ```
-Install yeganesh.
+Install yeganesh. Note that there are some warnings here about global installation and cabal because they're changing things. It still ended up working for me
+at the point in which I wrote this, but it might not in the future.
 ```
 sudo cabal install --global yeganesh
 ```
@@ -39,69 +38,34 @@ sudo cabal install  xmobar --flags="with_iwlib"
 
 ### What to do with xmonad.hs and xmobar.hs?
 
-Put them in ~/.xmonad which is a directory you'll have to create yourself.
+Put them in ~/.xmonad which is a directory you'll have to create yourself. The 'lib' folder also needs to go into the ~/.xmonad folder.
 
-### To get to xmonad+gnome
+### To get to gnome + xmonad
 
-Log out, click on the gear, select the one that says xmonad+gnome. It should work for the most part, you might need to set up some other stuff.
+Log out, click on the gear, select the one that says xmonad + gnome. Log in. There are some things you will need to run (only once) to get various gnome 
+panels out of the way of xmonad.
 
-Also, to get rid of the gnome-flashback panel (you only ever need to do this once):
+To get rid of the gnome-flashback panel:
 ```
 dconf write /org/gnome/gnome-panel/layout/toplevel-id-list "['']"
 ```
-## Setting up i3lock
-
-I use i3lock-color for screen locking because I think the gnome-flashback screen locker is horrendous in appearance. I have the locking script hooked into a systemctl service file so it automatically runs whenever a suspend signal is sent (e.g. I close the lid of my Dell XPS 13).
-
-### Installing i3lock-color
-
-So... there are a lot of dependencies and they are poorly listed out. I think this is the complete list of them, but I might be missing one or two becauase I did this myself a while ago and did not write down what I installed (bad!).
-
+To get rid of the desktop icons and the issue with the gnome desktop drawing over xmonad/xmobar (this seems to be a 20.04 related issue):
 ```
-sudo apt-get update
-sudo apt-get install \
-      autoconf \
-      automake \
-      checkinstall \
-      libev-dev \
-      libxcb-composite0 \
-      libxcb-composite0-dev \
-      libxcb-xinerama0 \
-      libxcb-randr0 \
-      libxcb-xinerama0-dev \
-      libxcb-xkb-dev \
-      libxcb-image0-dev \
-      libxcb-util-dev \
-      libxkbcommon-x11-dev \
-      libjpeg-turbo8-dev \
-      libpam0g-dev \
-      pkg-config \
-      xcb-proto \
-      libxcb-xrm-dev \
-      libxcb-randr0-dev \
-      libxkbcommon-dev \
-      libcairo2-dev \
-      libxcb1-dev \
-      libxcb-dpms0-dev \
-      libxcb-image0-dev \
-      libxcb-util0-dev \
-      libev-dev \
-      libxcb-xinerama0-dev \
-      libxcb-xkb-dev
-sudo add-apt-repository ppa:aguignard/ppa
-sudo apt-get update
-sudo apt-get install libxcb-keysyms1-dev libxcb-randr0-dev
+gsettings set org.gnome.gnome-flashback root-background true
+gsettings set org.gnome.gnome-flashback desktop false
 ```
+### Miscellaneous things I like to set up
+## Icon pack
 
-Then you get the source code:
-```
-git clone https://github.com/PandorasFox/i3lock-color.git 
-cd i3lock-color
-```
-Do the thing (I believe):
-```
-sudo autoreconf -i && ./configure && make
-make -j
-sudo make install
-```
+Install the papirus icon theme!
 
+## Terminal appearance
+
+To import gnome terminal profile, run:
+```
+dconf load /org/gnome/terminal/legacy/profiles:/ < NAME_OF_FILE.dconf
+```
+To get rid of the enormous headerbar,
+```
+gsettings set org.gnome.Terminal.Legacy.Settings headerbar false
+```
