@@ -74,15 +74,20 @@ gsettings set org.gnome.Terminal.Legacy.Settings headerbar false
 sudo apt install git
 ```
 ## Latex
-```susudok
+```
 sudo apt install texlive texlive-latex-extra cm-super
 ```
-
+Also for pdf viewer Zathura for integration with vim:
+```
+sudo apt install zathura xdotool
+```
 ## Vim
 
-Put the .vimrc file in home directory. Place the vim theme file (e.g. sierra.vim) in ~/.vim/colors.
+Put the .vimrc file in home directory.
 
 ```
 sudo apt install vim
-curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 ```
+Open vim and `:PlugInstall` to have vim-plug install plugins as listed in .vimrc.
