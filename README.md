@@ -54,10 +54,10 @@ To get rid of the desktop icons and the issue with the gnome desktop drawing ove
 gsettings set org.gnome.gnome-flashback root-background true
 gsettings set org.gnome.gnome-flashback desktop false
 ```
-### Miscellaneous things I like to set up
-## Icon pack
+### Miscellaneous
+## Icon pack and fonts
 
-Install the papirus icon theme!
+Install the papirus icon theme! Personally I am also particular to Inconsolata as a font.
 
 ## Terminal appearance
 
@@ -68,4 +68,21 @@ dconf load /org/gnome/terminal/legacy/profiles:/ < NAME_OF_FILE.dconf
 To get rid of the enormous headerbar,
 ```
 gsettings set org.gnome.Terminal.Legacy.Settings headerbar false
+```
+## Git
+```
+sudo apt install git
+```
+## Latex
+```susudok
+sudo apt install texlive texlive-latex-extra cm-super
+```
+
+## Vim
+
+Put the .vimrc file in home directory. Place the vim theme file (e.g. sierra.vim) in ~/.vim/colors.
+
+```
+sudo apt install vim
+curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 ```
