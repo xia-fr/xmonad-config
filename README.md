@@ -91,3 +91,16 @@ curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 ```
 Open vim and `:PlugInstall` to have vim-plug install plugins as listed in .vimrc.
+
+## Firefox
+
+In preferences, density is `Compact` and `Title Bar` is checked.
+
+## Screenshots
+
+Disable the default keyboard shortcuts for screenshots, custom `gnome-screenshot` command:
+```
+DATE=$(date +%Y-%m-%d-%H:%M:%S)
+gnome-screenshot -c -a -f /home/USER/Pictures/Screenshots/Screenshot-$DATE.png
+```
+
