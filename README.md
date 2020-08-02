@@ -110,4 +110,4 @@ gsettings set org.gnome.desktop.wm.preferences button-layout :
 ```
 ### GTK Themes
 
-I'm quite fond of either Equilux or Nordic Darker (with a few modifications).
+I'm quite fond of Equilux, Nordic Darker, or Kripton (with a few modifications).
