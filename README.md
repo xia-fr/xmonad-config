@@ -108,3 +108,6 @@ gnome-screenshot -c -a -f /home/USER/Pictures/Screenshots/Screenshot-$DATE.png
 ```
 gsettings set org.gnome.desktop.wm.preferences button-layout :
 ```
+### GTK Themes
+
+I'm quite fond of either Equilux or Nordic Darker (with a few modifications).
