@@ -104,4 +104,7 @@ Disable the default keyboard shortcuts for screenshots, custom `gnome-screenshot
 DATE=$(date +%Y-%m-%d-%H:%M:%S)
 gnome-screenshot -c -a -f /home/USER/Pictures/Screenshots/Screenshot-$DATE.png
 ```
-
+### Titlebar
+```
+gsettings set org.gnome.desktop.wm.preferences button-layout :
+```
