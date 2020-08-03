@@ -85,7 +85,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) =
 	   ((modm , xK_Escape)	        , kill)  -- xK_grave -- another option
 	 , ((modm , xK_backslash)       , spawn "gnome-terminal")
      , ((modm , xK_x)               , spawn "firefox")
-     , ((modm , xK_f)               , spawn "nautilus")
+     , ((modm , xK_f)               , spawn "nautilus --new-window")
      , ((modm , xK_Delete)          , spawn "gnome-system-monitor")
 	 , ((modm , xK_p)		        , spawn myLauncher)
 	 , ((modm .|. shiftMask , xK_q)	, spawn "gnome-session-quit --power-off")
@@ -160,7 +160,7 @@ main = do
     , mouseBindings		= myMouse
     , manageHook 		= myHooks 
     , logHook	 		= myLogHook h
-    , startupHook		= startupHook gnomeConfig >> setWMName "LG3D"
+    , startupHook		= startupHook gnomeConfig -- >> setWMName "LG3D"
     }
 
 -- General Color Palette
