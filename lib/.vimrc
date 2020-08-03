@@ -38,6 +38,7 @@ set smartcase
 set autoread " autoread files
 set mouse=a " use mouse for scroll or window size
 
+" Uses system clipboard by default, yy to copy and p to paste
 set clipboard=unnamedplus
 let mapleader = ','
 
@@ -53,7 +54,7 @@ if empty(glob('~/.vim/autoload/plug.vim'))
 endif
 
 " All the plugins are listed here
-call plug#begin('~/.vim/plug.vim')
+call plug#begin('~/.vim/plugged')
 
 " Productivity
 Plug 'junegunn/vim-plug'
@@ -115,12 +116,21 @@ let g:vimtex_quickfix_latexlog = {
 " -----------------------------------------------------------------------------
 "  APPEARANCE
 "  ----------------------------------------------------------------------------
-" set guifont=Sauce\ Code\ Pro\ Medium\ Nerd\ Font\ Complete\ Mono\ 12
 syntax on
-"set background=dark
 
 let g:sierra_Twilight = 1
 colorscheme sierra
 
-"let g:alduin_Shout_Dragon_Aspect = 1
-"colorscheme alduin
+" -----------------------------------------------------------------------------
+"  KEY BINDINGS
+"  ----------------------------------------------------------------------------
+
+" Allows easy clearing of search highlighting
+nnoremap <silent> ,<space> :nohlsearch<CR>
+
+
+
+
+
+
+
