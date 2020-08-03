@@ -3,7 +3,7 @@ Config {
    -- https://github.com/jaor/xmobar
 
    -- appearance
-     font 	= "xft:inconsolata:size=10:antialias=true"
+     font 	= "xft:sourcecodepro-regular:size=10:antialias=true"
    , bgColor 	= "black"
    , fgColor 	= "#DAD8A7"
    , position 	= TopP -3 0
