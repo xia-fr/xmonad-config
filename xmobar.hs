@@ -1,24 +1,37 @@
 Config { 
 
    -- https://github.com/jaor/xmobar
+   
+   ---- COLOR PALETTE --
+   -- Red1 : dark gray red
+   -- Red2 : orange red
+   -- Gr1  : gray green
+   -- Gr2  : lighter gray green
+   -- cWhite 	= "#DFDFDF"
+   -- cGray     = "#969595"
+   -- cBlack    = "#1C1C1C"
+   -- cRed1	    = "#AF8787"
+   -- cRed2	    = "#D75F5F"
+   -- cGreen1	= "#87AFAF"
+   -- cGreen2	= "#AFD7D7"
 
    -- appearance
-     font 	= "xft:sourcecodepro-regular:size=10:antialias=true"
-   , bgColor 	= "black"
-   , fgColor 	= "#DAD8A7"
+     font 	= "xft:inconsolata:size=11:antialias=true"
+   , bgColor 	= "black"   -- background of bar color
+   , fgColor 	= "#DFDFDF"    -- standard element font color
    , position 	= TopP -3 0
    , border 	= NoBorder
    
    -- layout
    , sepChar =  "%"   -- delineator between plugin names and straight text
    , alignSep = "}{"  -- separator between left-right alignment
-   , template = " %StdinReader%}{ %wlp58s0wi% | %battery% | %memory% || %date% "
+   , template = " %StdinReader%}{ %KRHV% | %wlp58s0wi% | %battery% | %memory% | %date% "
 
    -- general behavior
    , lowerOnStart =     True    -- send to bottom of window stack on start
    , hideOnStart =      False   -- start with window unmapped (hidden)
    , allDesktops =      True    -- show on all desktops
-   , overrideRedirect = False    -- set the Override Redirect flag (Xlib)
+   , overrideRedirect = False   -- set the Override Redirect flag (Xlib)
    , pickBroadest =     False   -- choose widest display (multi-monitor)
    , persistent =       True    -- enable/disable hiding (True = disabled)
 
@@ -38,29 +51,29 @@ Config {
    --   see http://projects.haskell.org/xmobar/#system-monitor-plugins.
    , commands = 
 
-        -- memory usage monitor
-        [ Run Memory         [ "--template" ,"M: <usedratio>%"
-                             , "--Low"      , "20"        -- units: %
-                             , "--High"     , "90"        -- units: %
-                             , "--low"      , "#3FB8AF"
-                             , "--normal"   , "#7FC7AF"
-                             , "--high"     , "#FF3D7F"
-                             ] 30
+    -- memory usage monitor
+    [ Run Memory         [ "--template" ,"M: <usedratio>"
+                          , "--Low"      , "20"        -- units: %
+                          , "--High"     , "90"        -- units: %
+                          , "--low"      , "#87AFAF"
+                          , "--normal"   , "#AFD7D7"
+                          , "--high"     , "#AF8787"
+                         ] 30
 
 	-- battery monitor 
 	, Run Battery        [ "--template" , "P: <acstatus>"
                              , "--Low"      , "10"        -- units: %
                              , "--High"     , "80"        -- units: %
-                             , "--low"      , "#FF3D7F"
-                             , "--normal"   , "#7FC7AF"
-                             , "--high"     , "#3FB8AF"
+                             , "--low"      , "#AF8787"
+                             , "--normal"   , "#AFD7D7"
+                             , "--high"     , "#87AFAF"
                              , "--" -- battery specific options
                                        -- discharging status
-                                       , "-o"	, "<left>%" 
+                                       , "-o"	, "<left>" 
                                        -- AC "on" status
-                                       , "-O"	, "<fc=#FF9E9D>Charging</fc> (<left>%)"
+                                       , "-O"	, "<fc=#AFD7D7>Charging</fc> (<left>)"
                                        -- charged status
-                                       , "-i"	, "<fc=#3FB8AF>Charged</fc>"
+                                       , "-i"	, "<fc=#87AFAF>Full</fc>"
                              ] 100
 
 	-- wireless network monitor
@@ -69,14 +82,24 @@ Config {
 	, Run Wireless "wlp58s0" [ "--template" , "<essid> [<qualitybar>]"
 			     , "--Low"	    , "20"
 			     , "--High"     , "80"
-			     , "--low"	    , "#FF3D7F"
-			     , "--normal"   , "#7FC7AF"
-			     , "--high"	    , "#3FB8AF"
+			     , "--low"      , "#AF8787"
+                 , "--normal"   , "#AFD7D7"
+                 , "--high"     , "#87AFAF"
 			     ] 100
 
-        -- time and date indicator 
-        --   (%F = y-m-d date, %a = day of week, %T = h:m:s time)
-        , Run Date           "<fc=#DAD8A7>%F (%a) %r</fc>" "date" 10
+    -- time and date indicator 
+    --   (%F = y-m-d date, %a = day of week, %T = h:m:s time)
+    , Run Date  "<fc=#DFDFDF>%F (%a) %r</fc>" "date" 10
+
+    -- weather monitor (18000 refresh every 30 min)
+    , Run Weather "KRHV" 
+                 ["-t", "<tempF>°F | <skyCondition>"
+                 , "-L"         , "65"
+                 , "-H"         , "85"
+                 , "--high"     , "#AF8787"
+                 , "--normal"   , "#AFD7D7"
+                 , "--low"      , "#87AFAF"
+                 ] 18000
 
 	-- status about which layout and workspace
 	, Run StdinReader

@@ -33,11 +33,17 @@ import Data.Monoid (All (All))
 -- dconf load /org/gnome/terminal/legacy/profiles:/ < gnome-terminal-profiles.dconf
 
 -- COLOR PALETTE --
-cTeal 	= "#3FB8AF"
-cGreen	= "#7FC7AF"
-cLinen	= "#DAD8A7"
-cPink	= "#FF9E9D"
-cCoral	= "#FF3D7F"
+-- Red1 : dark gray red
+-- Red2 : orange red
+-- Gr1  : gray green
+-- Gr2  : lighter gray green
+cWhite 	= "#DFDFDF"
+cGray   = "#969595"
+cBlack  = "#1C1C1C"
+cRed1	= "#AF8787"
+cRed2	= "#D75F5F"
+cGreen1	= "#87AFAF"
+cGreen2	= "#AFD7D7"
 
 -- WORKSPACES --
 myWorkspaces = ["1","2"] ++ map show [3..9]
@@ -45,7 +51,7 @@ myWorkspaces = ["1","2"] ++ map show [3..9]
 -- LAUNCHER --
 -- Note: the cache for yeganesh is stored in ~/.local/share/yeganesh
 -- 	 so if an entry needs to be forgotten, that's where to go to delete it
-myLauncher = "$(yeganesh -x -- -nb black -fn sourcecodepro:size=10 -nf \\#DAD8A7 -sb black -sf \\#3FB8AF)"
+myLauncher = "$(yeganesh -x -- -nb black -fn inconsolata:size=11 -nf \\#DFDFDF -sb black -sf \\#87AFAF)"
 
 -- MANAGE HOOKS --
 myHooks = manageDocks 	<+>
@@ -70,12 +76,12 @@ workspaceLayouts =
 
 -- Colors for text and backgrounds of each tab when in "Tabbed" layout.
 tabConfig = defaultTheme {
-    activeBorderColor = cPink,
-    activeTextColor = cPink,
-    activeColor = "#555152",
-    inactiveBorderColor = "#2E2633",
-    inactiveTextColor = "#555152",
-    inactiveColor = "#2E2633"
+    activeBorderColor = cBlack,
+    activeTextColor = cWhite,
+    activeColor = cBlack,
+    inactiveBorderColor = cBlack,
+    inactiveTextColor = cGray,
+    inactiveColor = cBlack
 }
 
 -- CUSTOM KEYBINDINGS --
@@ -120,9 +126,9 @@ myXMob = "xmobar ~/.xmonad/xmobar.hs"
 myLogHook h = (dynamicLogWithPP $ myPP h)
   
 myPP h = xmobarPP
-  { ppCurrent		= xmobarColor cGreen "" . wrap "[" "]"
-  , ppVisible		= xmobarColor cPink ""
-  , ppTitle	    	= xmobarColor cPink ""
+  { ppCurrent		= xmobarColor cGreen1 "" . wrap "[" "]"
+  , ppVisible		= xmobarColor cRed2 ""
+  , ppTitle	    	= xmobarColor cRed2 ""
   , ppOutput		= hPutStrLn h
   }
   
@@ -153,7 +159,7 @@ main = do
     , focusFollowsMouse 	= False 
     , borderWidth 		= 1
     , normalBorderColor 	= "#000000"
-    , focusedBorderColor 	= "#825f69" -- "#e73a6f" -- salmonish pink --  
+    , focusedBorderColor 	= cRed1 -- "#e73a6f" -- salmonish pink --  
     , workspaces		= myWorkspaces
     , layoutHook 		= myLayout
     , keys       		= newKeys
