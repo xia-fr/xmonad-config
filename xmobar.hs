@@ -89,7 +89,7 @@ Config {
 
     -- time and date indicator 
     --   (%F = y-m-d date, %a = day of week, %T = h:m:s time)
-    , Run Date  "<fc=#DFDFDF>%F (%a) %r</fc>" "date" 10
+    , Run Date  "<fc=#DFDFDF>%a, %b %d %Y | %r</fc>" "date" 10
 
     -- weather monitor (18000 refresh every 30 min)
     , Run Weather "KRHV" 
