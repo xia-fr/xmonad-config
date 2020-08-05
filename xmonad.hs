@@ -41,7 +41,7 @@ cWhite 	= "#DFDFDF"
 cGray   = "#969595"
 cBlack  = "#1C1C1C"
 cRed1	= "#AF8787"
-cRed2	= "#D75F5F"
+cRed2	= "#D78787"
 cGreen1	= "#87AFAF"
 cGreen2	= "#AFD7D7"
 
@@ -76,7 +76,7 @@ workspaceLayouts =
 
 -- Colors for text and backgrounds of each tab when in "Tabbed" layout.
 tabConfig = defaultTheme {
-    activeBorderColor = cBlack,
+    activeBorderColor = cGray,
     activeTextColor = cWhite,
     activeColor = cBlack,
     inactiveBorderColor = cBlack,
