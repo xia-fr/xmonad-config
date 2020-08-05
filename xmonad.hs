@@ -37,13 +37,13 @@ import Data.Monoid (All (All))
 -- Red2 : orange red
 -- Gr1  : gray green
 -- Gr2  : lighter gray green
-cWhite 	= "#DFDFDF"
+cWhite  = "#DFDFDF"
 cGray   = "#969595"
 cBlack  = "#1C1C1C"
-cRed1	= "#AF8787"
-cRed2	= "#D78787"
-cGreen1	= "#87AFAF"
-cGreen2	= "#AFD7D7"
+cRed1   = "#AF8787"
+cRed2   = "#D78787"
+cGreen1 = "#87AFAF"
+cGreen2 = "#AFD7D7"
 
 -- WORKSPACES --
 myWorkspaces = ["1","2"] ++ map show [3..9]
@@ -54,8 +54,7 @@ myWorkspaces = ["1","2"] ++ map show [3..9]
 myLauncher = "$(yeganesh -x -- -nb black -fn inconsolata:size=11 -nf \\#DFDFDF -sb black -sf \\#87AFAF)"
 
 -- MANAGE HOOKS --
-myHooks = manageDocks 	<+>
-	  myManageHook
+myHooks = manageDocks <+> myManageHook
 
 -- LAYOUT MANAGEMENT --
 -- Puts it all together
@@ -63,74 +62,73 @@ myLayout = smartBorders . avoidStruts $ reflectHoriz $ workspaceLayouts
 
 -- Per-workspace layouts, with tweak-ability for easy management
 workspaceLayouts =
-	onWorkspace "1" msgLayouts $
-	defaultLayouts
-	where
-		msgLayouts 	 = tabbedLayout
-		defaultLayouts 	 = tiledLayout ||| tabbedLayout ||| fullscreenLayout
-	
-		tiledLayout 	 = renamed [Replace "[ | ]"] (Tall 1 (2/100) (1/2))
-		tabbedLayout 	 = renamed [Replace "[===]"] (tabbed shrinkText tabConfig)
-		fullscreenLayout = renamed [Replace "[   ]"] (Full)
+    onWorkspace "1" msgLayouts $
+    defaultLayouts
+    where
+        msgLayouts       = tabbedLayout
+        defaultLayouts   = tiledLayout ||| tabbedLayout ||| fullscreenLayout
 
+        tiledLayout      = renamed [Replace "[ | ]"] (Tall 1 (2/100) (1/2))
+        tabbedLayout     = renamed [Replace "[===]"] (tabbed shrinkText tabConfig)
+        fullscreenLayout = renamed [Replace "[   ]"] (Full)
 
--- Colors for text and backgrounds of each tab when in "Tabbed" layout.
+-- Tabbed layout configuration, color settings
 tabConfig = defaultTheme {
-    activeBorderColor = cGray,
-    activeTextColor = cWhite,
-    activeColor = cBlack,
+    activeBorderColor   = cGray,
+    activeTextColor     = cWhite,
+    activeColor         = cBlack,
     inactiveBorderColor = cBlack,
-    inactiveTextColor = cGray,
-    inactiveColor = cBlack
+    inactiveTextColor   = cGray,
+    inactiveColor       = cBlack
 }
 
 -- CUSTOM KEYBINDINGS --
 myKeys conf@(XConfig {XMonad.modMask = modm}) =
-             [
-	 -- Some standard keybindings
-	   ((modm , xK_Escape)	        , kill)  -- xK_grave -- another option
-	 , ((modm , xK_backslash)       , spawn "gnome-terminal")
-     , ((modm , xK_x)               , spawn "firefox")
-     , ((modm , xK_f)               , spawn "nautilus --new-window")
-     , ((modm , xK_Delete)          , spawn "gnome-system-monitor")
-	 , ((modm , xK_p)		        , spawn myLauncher)
-	 , ((modm .|. shiftMask , xK_q)	, spawn "gnome-session-quit --power-off")
-	 , ((modm .|. shiftMask , xK_r) , spawn "gnome-session-quit --reboot")
-	 , ((modm .|. shiftMask , xK_f) , sendMessage ToggleStruts)
+    -- Some standard keybindings
+    [ ((modm , xK_Escape)           , kill)  -- xK_grave -- another option
+    , ((modm , xK_backslash)        , spawn "gnome-terminal")
+    , ((modm , xK_x)                , spawn "firefox")
+    , ((modm , xK_f)                , spawn "nautilus --new-window")
+    , ((modm , xK_Delete)           , spawn "gnome-system-monitor")
+    , ((modm , xK_p)                , spawn myLauncher)
+    , ((modm .|. shiftMask , xK_q)  , spawn "gnome-session-quit --power-off")
+    , ((modm .|. shiftMask , xK_r)  , spawn "gnome-session-quit --reboot")
+    , ((modm .|. shiftMask , xK_f)  , sendMessage ToggleStruts)
 
-	 -- Swaps the master window expand/shrink to correlate with reflected master
-     -- Also swaps the master window # incrementer so alt-period increases the
-     -- number of windows in the master area, and alt-comma decreases it
-     --     (which corresponds to the master window being on the right)
-	 , ((modm , xK_h)		, sendMessage Expand)
-	 , ((modm , xK_l)		, sendMessage Shrink)
-     , ((modm , xK_comma)   , sendMessage (IncMasterN (-1)))
-     , ((modm , xK_period)  , sendMessage (IncMasterN 1))
-             ]
+    -- Swaps the master window expand/shrink to correlate with reflected master
+    -- Also swaps the master window # incrementer so alt-period increases the
+    -- number of windows in the master area, and alt-comma decreases it
+    -- (which corresponds to the master window being on the right)
+    , ((modm , xK_h)        , sendMessage Expand)
+    , ((modm , xK_l)        , sendMessage Shrink)
+    , ((modm , xK_comma)    , sendMessage (IncMasterN (-1)))
+    , ((modm , xK_period)   , sendMessage (IncMasterN 1))
+    ]
+
 -- Takes the union of default keys and custom keys, with custom keys
 -- having the ability to override defaults
 newKeys x = M.union (M.fromList (myKeys x)) (keys defaultConfig x)
 
 -- CUSTOM MOUSEBINDINGS --
 myMouse (XConfig {XMonad.modMask = modm}) = M.fromList $
-	     [
-	 -- move window
-	   ((modm, button1)		, (\w -> focus w >> mouseMoveWindow w))
+    [
+    -- move window
+    ((modm, button1) , (\w -> focus w >> mouseMoveWindow w))
 
-	 -- resize window
-	 , ((modm .|. shiftMask, button1) , (\w -> focus w >> mouseResizeWindow w))
-	     ]
+    -- resize window
+    , ((modm .|. shiftMask, button1) , (\w -> focus w >> mouseResizeWindow w))
+    ]
 
--- XMOBAR STUFF --
+-- XMOBAR --
 myXMob = "xmobar ~/.xmonad/xmobar.hs"
 myLogHook h = (dynamicLogWithPP $ myPP h)
   
 myPP h = xmobarPP
-  { ppCurrent		= xmobarColor cGreen1 "" . wrap "[" "]"
-  , ppVisible		= xmobarColor cRed2 ""
-  , ppTitle	    	= xmobarColor cRed2 ""
-  , ppOutput		= hPutStrLn h
-  }
+    { ppCurrent     = xmobarColor cGreen1 "" . wrap "[" "]"
+    , ppVisible     = xmobarColor cRed2 ""
+    , ppTitle       = xmobarColor cRed2 ""
+    , ppOutput      = hPutStrLn h
+    }
   
 -- MANAGE HOOKS --
 -- 
@@ -141,56 +139,30 @@ myPP h = xmobarPP
 myManageHook = composeAll
     [ manageHook gnomeConfig
 -- Unity 2d related
-    , className =? "Unity-2d-panel" 	--> doIgnore
-    , className =? "Unity-2d-launcher" 	--> doIgnore
+    , className =? "Unity-2d-panel"     --> doIgnore
+    , className =? "Unity-2d-launcher"  --> doIgnore
 -- more hooks:
-    , className =? "Caprine"		--> doShift (myWorkspaces !! 0)
-    , className =? "Slack"		--> doShift (myWorkspaces !! 0)
+    , className =? "Caprine"            --> doShift (myWorkspaces !! 0)
+    , className =? "Slack"              --> doShift (myWorkspaces !! 0)
 -- note: this is Spotify, but it doesn't name itself until after it's created...
-    , className =? ""			--> doShift (myWorkspaces !! 0)
+    , className =? ""                   --> doShift (myWorkspaces !! 0)
     ]
 
--- THE MAIN THING THAT DOES THE THING --
+-- Put it all together --
 main = do
-  h <- spawnPipe myXMob
-  xmonad $ gnomeConfig
-    { terminal    		= "gnome-terminal"
-    , modMask     		= mod1Mask
+ h <- spawnPipe myXMob
+ xmonad $ gnomeConfig
+    { terminal    		    = "gnome-terminal"
+    , modMask     		    = mod1Mask
     , focusFollowsMouse 	= False 
-    , borderWidth 		= 1
+    , borderWidth 		    = 1
     , normalBorderColor 	= "#000000"
-    , focusedBorderColor 	= cRed1 -- "#e73a6f" -- salmonish pink --  
-    , workspaces		= myWorkspaces
-    , layoutHook 		= myLayout
-    , keys       		= newKeys
-    , mouseBindings		= myMouse
-    , manageHook 		= myHooks 
-    , logHook	 		= myLogHook h
-    , startupHook		= startupHook gnomeConfig -- >> setWMName "LG3D"
+    , focusedBorderColor 	= cRed1
+    , workspaces		    = myWorkspaces
+    , layoutHook 		    = myLayout
+    , keys       		    = newKeys
+    , mouseBindings		    = myMouse
+    , manageHook 		    = myHooks 
+    , logHook	 		    = myLogHook h
+    , startupHook		    = startupHook gnomeConfig -- >> setWMName "LG3D"
     }
-
--- General Color Palette
---
--- Warms (light to dark):
---      #D78787
---      #C56969
---      #D75F5F (saturated)
---      #9C5A5A
---      #944343
---      #7E3131 (dark mahogany)
---      #6A5555 (very gray pink)
---
--- Colds (light to dark):
---      #AFD7D7
---      #87AfAf
---      #91BAB1 (nice sea green)
---      #57716B (nice darker sea green)
---
--- Whites:
---      #D0D0D0
---      #AAAAAA
---
--- Blacks:
---      #1C1C1C
---      #4E4E4E (dark gray for comments)
-
