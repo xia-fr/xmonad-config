@@ -1,8 +1,8 @@
-# gnome + xmonad config (for Ubuntu 20.04 LTS)
+# xmonad + gnome config (for Ubuntu 20.04 LTS)
 
 ## Getting Started
 
-We begin here with a fresh install of Ubuntu 20.04 LTS. After doing some basic updating of packages, etc., we just need to install some things to get going with gnome + xmonad.
+We begin here with a fresh install of Ubuntu 20.04 LTS. After doing some basic updating of packages, etc., we just need to install some things to get going with xmonad + gnome.
 
 ### Installing xmonad and related things
 
@@ -40,7 +40,7 @@ sudo cabal install  xmobar --flags="with_iwlib"
 
 Put them in ~/.xmonad which is a directory you'll have to create yourself. The 'lib' folder also needs to go into the ~/.xmonad folder.
 
-### To get to gnome + xmonad
+### To get to xmonad + gnome
 
 Log out, click on the gear, select the one that says xmonad + gnome. Log in. There are some things you will need to run (only once) to get various gnome 
 panels out of the way of xmonad.
