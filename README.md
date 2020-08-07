@@ -93,6 +93,8 @@ curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
 ```
 Open vim and `:PlugInstall` to have vim-plug install plugins as listed in .vimrc.
 
+Also make sure to install `vim-gtk3` so the copy/paste options interact with system clipboard.
+
 ### Firefox
 
 In preferences, density is `Compact` and `Title Bar` is checked.
