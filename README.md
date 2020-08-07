@@ -99,11 +99,15 @@ In preferences, density is `Compact` and `Title Bar` is checked.
 
 ### Screenshots
 
-Disable the default keyboard shortcuts for screenshots, custom `gnome-screenshot` command:
+Disable the default keyboard shortcuts for screenshots, custom `gnome-screenshot` command (ssarea.sh in ~/.local/bin):
 ```
+#!/bin/bash
+## Screenshot Area Script
 DATE=$(date +%Y-%m-%d-%H:%M:%S)
 gnome-screenshot -c -a -f /home/USER/Pictures/Screenshots/Screenshot-$DATE.png
 ```
+
+In gnome control center, keyboard shortcut command: `sh -c '/home/<USER>/.local/bin/ssarea.sh'`
 ### Titlebar
 ```
 gsettings set org.gnome.desktop.wm.preferences button-layout :
