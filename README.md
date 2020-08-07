@@ -117,6 +117,9 @@ Make it executable with `sudo chmod a+x '/home/<USER>/.local/bin/ssarea.sh'`
 ```
 gsettings set org.gnome.desktop.wm.preferences button-layout :
 ```
-### GTK Themes
+### GTK Themes/Grub Themes
 
 I'm quite fond of Equilux, Nordic Darker, or Kripton (with a few modifications).
+
+Use `sudo apt-get install grub-customizer` to get the grub customizer to edit list entries. Install a nice
+grub theme off the internet. :)
