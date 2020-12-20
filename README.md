@@ -123,3 +123,8 @@ I'm quite fond of Equilux, Nordic Darker, or Kripton (with a few modifications).
 
 Use `sudo apt-get install grub-customizer` to get the grub customizer to edit list entries. Install a nice
 grub theme off the internet. :)
+
+### Dual boot time issue
+```
+timedatectl set-local-rtc 1 --adjust-system-clock
+```
