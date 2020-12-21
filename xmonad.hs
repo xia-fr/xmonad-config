@@ -51,7 +51,7 @@ myWorkspaces = ["1","2"] ++ map show [3..9]
 -- LAUNCHER --
 -- Note: the cache for yeganesh is stored in ~/.local/share/yeganesh
 -- 	 so if an entry needs to be forgotten, that's where to go to delete it
-myLauncher = "$(yeganesh -x -- -nb black -fn inconsolata:size=11 -nf \\#DFDFDF -sb black -sf \\#87AFAF)"
+myLauncher = "$(yeganesh -x -- -nb black -fn inconsolata:size=10 -nf \\#DFDFDF -sb black -sf \\#87AFAF)"
 
 -- MANAGE HOOKS --
 myHooks = manageDocks <+> myManageHook
@@ -146,7 +146,14 @@ myManageHook = composeAll
     , className =? "Slack"              --> doShift (myWorkspaces !! 0)
 -- note: this is Spotify, but it doesn't name itself until after it's created...
     , className =? ""                   --> doShift (myWorkspaces !! 0)
+    , className =? "Gnome-terminal"     --> doRectFloat (W.RationalRect l t w h)
     ]
+    where
+        h = 0.45        -- terminal height
+        w = 0.55        -- terminal width
+        t = (1-h)/2     -- distance from top edge
+        l = (1-w)/2     -- distance from left edge
+
 
 -- Put it all together --
 main = do
@@ -164,5 +171,5 @@ main = do
     , mouseBindings		    = myMouse
     , manageHook 		    = myHooks 
     , logHook	 		    = myLogHook h
-    , startupHook		    = startupHook gnomeConfig -- >> setWMName "LG3D"
+    , startupHook		    = startupHook gnomeConfig >> setWMName "LG3D"
     }
