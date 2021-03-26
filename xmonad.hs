@@ -1,26 +1,23 @@
 import XMonad
 import XMonad.Config.Gnome
--- keybindings
-import qualified Data.Map as M
--- layout
+import XMonad.Util.Run
+import XMonad.Util.EZConfig
+import XMonad.Hooks.DynamicLog
+import XMonad.Hooks.ManageDocks
+import XMonad.Hooks.SetWMName
+import XMonad.Hooks.ManageHelpers
+import XMonad.Hooks.DynamicBars
 import XMonad.Layout.Fullscreen
 import XMonad.Layout.NoBorders
 import XMonad.Layout.Renamed
 import XMonad.Layout.Tabbed
-import ReflectSilent
 import XMonad.Layout.PerWorkspace
--- hooks
-import XMonad.Util.Run
-import XMonad.Hooks.DynamicLog
-import XMonad.Hooks.ManageDocks
-import XMonad.Hooks.SetWMName
-import XMonad.Util.EZConfig
-import XMonad.Hooks.ManageHelpers
-import XMonad.Hooks.DynamicBars
--- misc
+import XMonad.Actions.OnScreen
 import qualified XMonad.StackSet as W
+import qualified Data.Map        as M
 import Control.Monad
 import Data.Monoid (All (All))
+import ReflectSilent
 
 -- To get rid of all the gnome-flashback panels:
 -- dconf write /org/gnome/gnome-panel/layout/toplevel-id-list "['']"
@@ -33,11 +30,7 @@ import Data.Monoid (All (All))
 -- To load it into the destination system:
 -- dconf load /org/gnome/terminal/legacy/profiles:/ < gnome-terminal-profiles.dconf
 
--- COLOR PALETTE --
--- Red1 : dark gray red
--- Red2 : orange red
--- Gr1  : gray green
--- Gr2  : lighter gray green
+-- COLOR PALETTE
 cWhite  = "#DFDFDF"
 cGray   = "#969595"
 cBlack  = "#1C1C1C"
@@ -46,22 +39,54 @@ cRed2   = "#D78787"
 cGreen1 = "#87AFAF"
 cGreen2 = "#AFD7D7"
 
--- WORKSPACES --
-myWorkspaces = ["1","2"] ++ map show [3..9]
+------------------------------------------------------------------------------------------
+-- MAIN                                                                                  -
+------------------------------------------------------------------------------------------
 
--- LAUNCHER --
+main = do
+    h <- spawnPipe $ myXMob
+    xmonad $ gnomeConfig
+        { terminal    		    = "gnome-terminal"
+        , modMask     		    = mod1Mask
+        , focusFollowsMouse 	= False 
+        , borderWidth 		    = 1
+        , normalBorderColor 	= "#000000"
+        , focusedBorderColor 	= cRed1
+        , workspaces		    = myWorkspaces
+        , layoutHook 		    = myLayout
+        , keys       		    = newKeys
+        , mouseBindings		    = myMouse
+        , manageHook 		    = myHooks 
+        , logHook	 		    = myLogHook h
+        , startupHook		    = startupHook gnomeConfig >> setWMName "LG3D"
+        }
+
+-- LAUNCHER
 -- Note: the cache for yeganesh is stored in ~/.local/share/yeganesh
--- 	 so if an entry needs to be forgotten, that's where to go to delete it
+-- so if an entry needs to be forgotten, that's where to go to delete it
 myLauncher = "$(yeganesh -x -- -nb black -fn inconsolata:size=10 -nf \\#DFDFDF -sb black -sf \\#87AFAF)"
 
--- MANAGE HOOKS --
-myHooks = manageDocks <+> myManageHook
+-- XMOBAR
+myXMob = "xmobar ~/.xmonad/xmobar.hs"
+myLogHook h = (dynamicLogWithPP $ myPP h)
+  
+myPP h = xmobarPP
+    { ppCurrent     = xmobarColor cGreen1 "" . wrap "[" "]"
+    , ppVisible     = xmobarColor cRed2 ""
+    , ppTitle       = xmobarColor cRed2 ""
+    , ppOutput      = hPutStrLn h
+    }
 
--- LAYOUT MANAGEMENT --
--- Puts it all together
+------------------------------------------------------------------------------------------
+-- WORKSPACES                                                                            -
+------------------------------------------------------------------------------------------
+
+myWorkspaces = ["1","2"] ++ map show [3..9]
+
+-- LAYOUT MANAGEMENT
 myLayout = smartBorders . avoidStruts $ reflectHoriz $ workspaceLayouts
 
--- Per-workspace layouts, with tweak-ability for easy management
+-- Per-workspace layouts
 workspaceLayouts =
     onWorkspace "1" msgLayouts $
     defaultLayouts
@@ -83,10 +108,16 @@ tabConfig = defaultTheme {
     inactiveColor       = cBlack
 }
 
--- CUSTOM KEYBINDINGS --
+------------------------------------------------------------------------------------------
+-- KEY BINDINGS                                                                          -
+------------------------------------------------------------------------------------------
+
+-- Union of default and custom, custom overriding defaults
+newKeys x = M.union (M.fromList (myKeys x)) (keys defaultConfig x)
+
 myKeys conf@(XConfig {XMonad.modMask = modm}) =
-    -- Some standard keybindings
-    [ ((modm , xK_Escape)           , kill)  -- xK_grave -- another option
+    -- Spawning applications
+    [ ((modm , xK_Escape)           , kill)
     , ((modm , xK_backslash)        , spawn "gnome-terminal")
     , ((modm , xK_x)                , spawn "firefox")
     , ((modm , xK_f)                , spawn "nautilus --new-window")
@@ -96,88 +127,54 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) =
     , ((modm .|. shiftMask , xK_r)  , spawn "gnome-session-quit --reboot")
     , ((modm .|. shiftMask , xK_f)  , sendMessage ToggleStruts)
 
-    -- Swaps the master window expand/shrink to correlate with reflected master
-    -- Also swaps the master window # incrementer so alt-period increases the
-    -- number of windows in the master area, and alt-comma decreases it
-    -- (which corresponds to the master window being on the right)
+    -- Swaps direction to correlate with master on right
     , ((modm , xK_h)        , sendMessage Expand)
     , ((modm , xK_l)        , sendMessage Shrink)
     , ((modm , xK_comma)    , sendMessage (IncMasterN (-1)))
     , ((modm , xK_period)   , sendMessage (IncMasterN 1))
+    -- Set screens to default (workspace 1 on left, workspace 2 on right)
+    , ((modm , xK_w)        , windows (greedyViewOnScreen 1 "1" . greedyViewOnScreen 0 "2"))
     ]
     ++
-    -- Workspace handling for dual monitors (erases confusion of swapping)
-    -- Exchanged greedyView for view.
-    [((m .|. modm, k), windows $ f i)
+    -- Workspace cycling for dual monitors
+    [ ((m .|. modm, k), windows $ f i)
         | (i, k) <- zip (XMonad.workspaces conf) [xK_1 .. xK_9]
-        , (f, m) <- [(W.view, 0), (W.shift, shiftMask)]]
+        , (f, m) <- [(W.view, 0), (W.shift, shiftMask)]
+    ]
 
-
--- Takes the union of default keys and custom keys, with custom keys
--- having the ability to override defaults
-newKeys x = M.union (M.fromList (myKeys x)) (keys defaultConfig x)
-
--- CUSTOM MOUSEBINDINGS --
+-- Mouse bindings
 myMouse (XConfig {XMonad.modMask = modm}) = M.fromList $
     [
-    -- move window
+    -- Move window
     ((modm, button1) , (\w -> focus w >> mouseMoveWindow w))
-
-    -- resize window
+    -- Resize window
     , ((modm .|. shiftMask, button1) , (\w -> focus w >> mouseResizeWindow w))
     ]
 
--- XMOBAR --
-myXMob = "xmobar ~/.xmonad/xmobar.hs"
-myLogHook h = (dynamicLogWithPP $ myPP h)
-  
-myPP h = xmobarPP
-    { ppCurrent     = xmobarColor cGreen1 "" . wrap "[" "]"
-    , ppVisible     = xmobarColor cRed2 ""
-    , ppTitle       = xmobarColor cRed2 ""
-    , ppOutput      = hPutStrLn h
-    }
-  
--- MANAGE HOOKS --
--- 
+------------------------------------------------------------------------------------------
+-- COMPOSITION                                                                           -
+------------------------------------------------------------------------------------------
 -- To find the property name associated with a program, use
 -- $ xprop | grep WM_CLASS
 -- and click on the client you're interested in.
--- 
+
+myHooks = manageDocks <+> myManageHook
 myManageHook = composeAll
     [ manageHook gnomeConfig
--- Unity 2d related
+    -- Unity 2d related
     , className =? "Unity-2d-panel"     --> doIgnore
     , className =? "Unity-2d-launcher"  --> doIgnore
--- more hooks:
+    -- Manage programs:
     , className =? "Caprine"            --> doShift (myWorkspaces !! 0)
     , className =? "Slack"              --> doShift (myWorkspaces !! 0)
--- note: this is Spotify, but it doesn't name itself until after it's created...
+    -- Spotify
     , className =? ""                   --> doShift (myWorkspaces !! 0)
+    -- Floating terminal
     , className =? "Gnome-terminal"     --> doRectFloat (W.RationalRect l t w h)
     ]
     where
-        h = 0.70        -- terminal height
-        w = 0.30        -- terminal width
+        h = 0.30        -- terminal height
+        w = 0.45        -- terminal width
         t = (1-h)*1/2   -- distance from top edge
-        l = 1-w-0.03   -- distance from left edge
+        l = (1-w)*1/2   -- distance from left edge
 
-
--- Put it all together --
-main = do
- h <- spawnPipe $ myXMob
- xmonad $ gnomeConfig
-    { terminal    		    = "gnome-terminal"
-    , modMask     		    = mod1Mask
-    , focusFollowsMouse 	= False 
-    , borderWidth 		    = 1
-    , normalBorderColor 	= "#000000"
-    , focusedBorderColor 	= cRed1
-    , workspaces		    = myWorkspaces
-    , layoutHook 		    = myLayout
-    , keys       		    = newKeys
-    , mouseBindings		    = myMouse
-    , manageHook 		    = myHooks 
-    , logHook	 		    = myLogHook h
-    , startupHook		    = startupHook gnomeConfig >> setWMName "LG3D"
-    }
