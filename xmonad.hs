@@ -16,6 +16,7 @@ import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.SetWMName
 import XMonad.Util.EZConfig
 import XMonad.Hooks.ManageHelpers
+import XMonad.Hooks.DynamicBars
 -- misc
 import qualified XMonad.StackSet as W
 import Control.Monad
@@ -65,7 +66,7 @@ workspaceLayouts =
     onWorkspace "1" msgLayouts $
     defaultLayouts
     where
-        msgLayouts       = tabbedLayout
+        msgLayouts       = tiledLayout
         defaultLayouts   = tiledLayout ||| tabbedLayout ||| fullscreenLayout
 
         tiledLayout      = renamed [Replace "[ | ]"] (Tall 1 (2/100) (1/2))
@@ -104,6 +105,13 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) =
     , ((modm , xK_comma)    , sendMessage (IncMasterN (-1)))
     , ((modm , xK_period)   , sendMessage (IncMasterN 1))
     ]
+    ++
+    -- Workspace handling for dual monitors (erases confusion of swapping)
+    -- Exchanged greedyView for view.
+    [((m .|. modm, k), windows $ f i)
+        | (i, k) <- zip (XMonad.workspaces conf) [xK_1 .. xK_9]
+        , (f, m) <- [(W.view, 0), (W.shift, shiftMask)]]
+
 
 -- Takes the union of default keys and custom keys, with custom keys
 -- having the ability to override defaults
@@ -149,15 +157,15 @@ myManageHook = composeAll
     , className =? "Gnome-terminal"     --> doRectFloat (W.RationalRect l t w h)
     ]
     where
-        h = 0.45        -- terminal height
-        w = 0.55        -- terminal width
-        t = (1-h)/2     -- distance from top edge
-        l = (1-w)/2     -- distance from left edge
+        h = 0.70        -- terminal height
+        w = 0.30        -- terminal width
+        t = (1-h)*1/2   -- distance from top edge
+        l = 1-w-0.03   -- distance from left edge
 
 
 -- Put it all together --
 main = do
- h <- spawnPipe myXMob
+ h <- spawnPipe $ myXMob
  xmonad $ gnomeConfig
     { terminal    		    = "gnome-terminal"
     , modMask     		    = mod1Mask
