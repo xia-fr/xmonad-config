@@ -24,16 +24,21 @@ Start by getting cabal and suckless-tools. Suckless-tools gives you dmenu, cabal
 sudo apt-get install suckless-tools cabal-install
 sudo cabal update
 ```
-Install yeganesh. Note that there are some warnings here about global installation and cabal because they're changing things. It still ended up working for me
-at the point in which I wrote this, but it might not in the future.
+Install yeganesh. Note that there are some warnings here about global installation and cabal because they're changing things. It still ended up working for me at the point in which I wrote this, but it might not in the future.
 ```
-sudo cabal install --global yeganesh
+stack install yeganesh
 ```
-Install xmobar. Note that you can compile it with flags for various extensions. Because I use an xmobar thing to get wifi card info, I compile with iwlib.
+Install the latest version of xmobar. Note this requires installing stack, and then setting it up.
 ```
-sudo apt-get install xmobar
+sudo apt-get install stack
+stack update
+stack setup
 sudo apt-get install libiw-dev
-sudo cabal install  xmobar --flags="with_iwlib"
+stack install --flag xmobar:all_all_extensions xmobar
+```
+Might also need:
+```
+sudo apt install libasound2-dev
 ```
 
 ### What to do with xmonad.hs and xmobar.hs?
