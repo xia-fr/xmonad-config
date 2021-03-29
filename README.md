@@ -19,20 +19,19 @@ sudo apt-get install gnome-session-xmonad
 
 These are some additional things that you'll need to get the xmonad config + xmobar config to work.
 
-Start by getting cabal and suckless-tools. Suckless-tools gives you dmenu, cabal lets you install xmobar and yeganesh (useful wrapper thing for dmenu).
+Start by getting stack and suckless-tools. Suckless-tools gives you dmenu, stack lets you install xmobar and yeganesh (useful wrapper thing for dmenu).
 ```
 sudo apt-get install suckless-tools cabal-install
-sudo cabal update
-```
-Install yeganesh. Note that there are some warnings here about global installation and cabal because they're changing things. It still ended up working for me at the point in which I wrote this, but it might not in the future.
-```
-stack install yeganesh
-```
-Install the latest version of xmobar. Note this requires installing stack, and then setting it up.
-```
 sudo apt-get install stack
 stack update
 stack setup
+```
+Install yeganesh.
+```
+stack install yeganesh
+```
+Install the latest version of xmobar.
+```
 sudo apt-get install libiw-dev
 stack install --flag xmobar:all_all_extensions xmobar
 ```
