@@ -39,6 +39,7 @@ stack install --flag xmobar:all_all_extensions xmobar
 Might also need:
 ```
 sudo apt install libasound2-dev
+sudo apt install libxpm-dev
 ```
 
 ### What to do with xmonad.hs and xmobar.hs?
