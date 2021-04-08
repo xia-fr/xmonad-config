@@ -12,6 +12,7 @@ import XMonad.Layout.NoBorders
 import XMonad.Layout.Renamed
 import XMonad.Layout.Tabbed
 import XMonad.Layout.PerWorkspace
+import XMonad.Layout.ResizableTile
 import XMonad.Actions.OnScreen
 import qualified XMonad.StackSet as W
 import qualified Data.Map        as M
@@ -91,12 +92,13 @@ workspaceLayouts =
     onWorkspace "1" msgLayouts $
     defaultLayouts
     where
-        msgLayouts       = tiledLayout
-        defaultLayouts   = tiledLayout ||| tabbedLayout ||| fullscreenLayout
+        msgLayouts       = rTiledLayout ||| tabbedLayout
+        defaultLayouts   = rTiledLayout ||| tabbedLayout ||| fullscreenLayout
 
-        tiledLayout      = renamed [Replace "[ | ]"] (Tall 1 (2/100) (1/2))
+        --tiledLayout      = renamed [Replace "[ | ]"] (Tall 1 (2/100) (1/2))
         tabbedLayout     = renamed [Replace "[===]"] (tabbed shrinkText tabConfig)
         fullscreenLayout = renamed [Replace "[   ]"] (Full)
+        rTiledLayout     = renamed [Replace "[ + ]"] (ResizableTall 1 (2/100) (1/2) [])
 
 -- Tabbed layout configuration, color settings
 tabConfig = defaultTheme {
@@ -134,6 +136,9 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) =
     , ((modm , xK_period)   , sendMessage (IncMasterN 1))
     -- Set screens to default (workspace 1 on left, workspace 2 on right)
     , ((modm , xK_w)        , windows (greedyViewOnScreen 1 "1" . greedyViewOnScreen 0 "2"))
+    -- Resizable tile key bindings for mirror
+    , ((modm , xK_z)        , sendMessage MirrorShrink)
+    , ((modm , xK_a)        , sendMessage MirrorExpand)
     ]
     ++
     -- Workspace cycling for dual monitors
