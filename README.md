@@ -24,6 +24,7 @@ Start by getting stack and suckless-tools. Suckless-tools gives you dmenu, stack
 sudo apt-get install suckless-tools cabal-install
 sudo apt-get install haskell-stack
 stack update
+stack upgrade
 stack setup
 ```
 Install yeganesh.
