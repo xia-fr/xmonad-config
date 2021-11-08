@@ -22,7 +22,7 @@ These are some additional things that you'll need to get the xmonad config + xmo
 Start by getting stack and suckless-tools. Suckless-tools gives you dmenu, stack lets you install xmobar and yeganesh (useful wrapper thing for dmenu).
 ```
 sudo apt-get install suckless-tools cabal-install
-sudo apt-get install stack
+sudo apt-get install haskell-stack
 stack update
 stack setup
 ```
