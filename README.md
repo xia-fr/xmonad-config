@@ -34,8 +34,10 @@ stack install yeganesh
 Install the latest version of xmobar.
 ```
 sudo apt-get install libiw-dev
-stack install --flag xmobar:all_all_extensions xmobar
+stack install --flag xmobar:all_extensions xmobar
 ```
+Note the xmobar install might tell you to add some stuff to your stack.yaml file. Just follow those instructions.
+(stack.yaml should be located in ~/.stack/global-project)
 Might also need:
 ```
 sudo apt install libasound2-dev
