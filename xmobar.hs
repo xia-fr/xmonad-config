@@ -16,16 +16,16 @@ Config {
    -- cGreen2	= "#AFD7D7"
 
    -- appearance
-     font 	= "xft:inconsolata:size=11:antialias=true"
+     font 	= "xft:inconsolata:size=10:antialias=true"
    , bgColor 	= "black"   -- background of bar color
    , fgColor 	= "#DFDFDF"    -- standard element font color
-   , position 	= TopP -3 0
+   , position 	= TopP 0 0
    , border 	= NoBorder
    
    -- layout
    , sepChar =  "%"   -- delineator between plugin names and straight text
    , alignSep = "}{"  -- separator between left-right alignment
-   , template = " %StdinReader%}{ %KBUR% | %wlp58s0wi% | %battery% | %memory% | %date% "
+   , template = " %StdinReader%}{ %multicoretemp% | %multicpu% | %memory% | %wi% | %battery% | %KBUR% | %date% "
 
    -- general behavior
    , lowerOnStart =     True    -- send to bottom of window stack on start
@@ -52,40 +52,62 @@ Config {
    , commands = 
 
     -- memory usage monitor
-    [ Run Memory         [ "--template" ,"M: <usedratio>"
-                          , "--Low"      , "20"        -- units: %
-                          , "--High"     , "90"        -- units: %
-                          , "--low"      , "#87AFAF"
-                          , "--normal"   , "#AFD7D7"
-                          , "--high"     , "#AF8787"
-                         ] 30
+    [ Run Memory     [ "--template" ,"M <usedratio>"
+                      , "--Low"      , "20"        -- units: %
+                      , "--High"     , "90"        -- units: %
+                      , "--low"      , "#87AFAF"
+                      , "--normal"   , "#AFD7D7"
+                      , "--high"     , "#AF8787"
+                     ] 30
 
 	-- battery monitor 
-	, Run Battery        [ "--template" , "P: <acstatus>"
-                             , "--Low"      , "10"        -- units: %
-                             , "--High"     , "80"        -- units: %
-                             , "--low"      , "#AF8787"
-                             , "--normal"   , "#AFD7D7"
-                             , "--high"     , "#87AFAF"
-                             , "--" -- battery specific options
-                                       -- discharging status
-                                       , "-o"	, "<left>" 
-                                       -- AC "on" status
-                                       , "-O"	, "<fc=#AFD7D7>Charging</fc> (<left>)"
-                                       -- charged status
-                                       , "-i"	, "<fc=#87AFAF>Full</fc>"
-                             ] 100
+	, Run Battery    [ "--template" , "P <acstatus>"
+		             , "--Low"      , "10"        -- units: %
+		             , "--High"     , "80"        -- units: %
+		             , "--low"      , "#AF8787"
+		             , "--normal"   , "#AFD7D7"
+		             , "--high"     , "#87AFAF"
+		             , "--" -- battery specific options
+		                       -- discharging status
+		                       , "-o"	, "<left>" 
+		                       -- AC "on" status
+		                       , "-O"	, "<fc=#AFD7D7>chrg</fc> (<left>)"
+		                       -- charged status
+		                       , "-i"	, "<fc=#87AFAF>100</fc>"
+		             ] 100
 
 	-- wireless network monitor
-	-- wlp58s0 is my wireless lan card name
-	-- wireless lan pci part 58 slot 0
-	, Run Wireless "wlp58s0" [ "--template" , "<essid> [<qualitybar>]"
+	-- Can replace W: with <ssid> for wifi name
+	, Run Wireless "" [ "--template" , "W <qualitybar>"
 			     , "--Low"	    , "20"
 			     , "--High"     , "80"
 			     , "--low"      , "#AF8787"
-                 , "--normal"   , "#AFD7D7"
-                 , "--high"     , "#87AFAF"
+      		     , "--normal"   , "#AFD7D7"
+       		     , "--high"     , "#87AFAF"
+                 , "-f"         , ":"
+                 , "-b"         , "."
 			     ] 100
+
+	-- cpu
+	, Run MultiCpu   [ "--template" , "CPU <autobar>"
+			         , "--Low"	    , "20"
+			         , "--High"     , "80"
+			         , "--low"      , "#87AFAF"
+          		     , "--normal"   , "#AFD7D7"
+           		     , "--high"     , "#AF8787"
+                     , "-f"         , ":"
+                     , "-b"         , "."
+                     , "-W"         , "5"
+			         ] 50
+
+    -- cpu
+	, Run MultiCoreTemp  [ "--template" , "<avg>°C"
+			             , "--Low"	    , "60"
+			             , "--High"     , "80"
+			             , "--low"      , "#87AFAF"
+              		     , "--normal"   , "#AFD7D7"
+               		     , "--high"     , "#AF8787"
+			             ] 100
 
     -- time and date indicator 
     --   (%F = y-m-d date, %a = day of week, %T = h:m:s time)
@@ -93,7 +115,7 @@ Config {
 
     -- weather monitor (18000 refresh every 30 min)
     , Run Weather "KBUR" 
-                 ["-t", "<tempF>°F | <skyCondition>"
+                 ["-t", "<tempF>°F <skyCondition>"
                  , "-L"         , "65"
                  , "-H"         , "85"
                  , "--high"     , "#AF8787"
@@ -101,8 +123,9 @@ Config {
                  , "--low"      , "#87AFAF"
                  ] 18000
 
-	-- status about which layout and workspace
-	, Run StdinReader
+     -- status about which layout and workspace
+     , Run StdinReader
         ]
    } 
+
 
