@@ -71,13 +71,11 @@ timedatectl set-local-rtc 1 --adjust-system-clock
 
 ## Miscellaneous preferemces
 
-### Icon pack and fonts
+### Themes in Gnome 42+
 
-papirus icon theme 
-inconsolata
+tbd
 
 ### Terminal appearance
-
 To import gnome terminal profile, run:
 ```
 dconf load /org/gnome/terminal/legacy/profiles:/ < NAME_OF_FILE.dconf
@@ -86,34 +84,16 @@ To get rid of the enormous headerbar,
 ```
 gsettings set org.gnome.Terminal.Legacy.Settings headerbar false
 ```
-### Git
-```
-sudo apt install git
-```
-### Latex
-```
-sudo apt install texlive texlive-latex-extra cm-super
-```
-Also for pdf viewer Zathura for integration with vim:
-```
-sudo apt install zathura xdotool
-```
+
 ### Vim
-
 Put the .vimrc file in home directory.
-
 ```
 sudo apt install vim
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 ```
 Open vim and `:PlugInstall` to have vim-plug install plugins as listed in .vimrc.
-
 Also make sure to install `vim-gtk3` so the copy/paste options interact with system clipboard.
-
-### Firefox
-
-In preferences, density is `Compact` and `Title Bar` is checked.
 
 ### Screenshots
 
@@ -126,14 +106,10 @@ gnome-screenshot -c -a -f /home/USER/Pictures/Screenshots/Screenshot-$DATE.png
 ```
 
 In gnome control center, keyboard shortcut command: `sh -c '/home/<USER>/.local/bin/ssarea.sh'`
-
 Make it executable with `sudo chmod a+x '/home/<USER>/.local/bin/ssarea.sh'`
 
-### Titlebar
-```
-gsettings set org.gnome.desktop.wm.preferences button-layout :
-```
-### GTK Themes/Grub Themes
+
+### Grub themeing/editing
 ```
 sudo add-apt-repository ppa:danielrichter2007/grub-customizer
 sudo apt install grub-customizer
