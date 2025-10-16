@@ -24,10 +24,10 @@ sudo apt-get install suckless-tools cabal-install
 cabal install yeganesh
 ```
 
-Install the latest version of xmobar.
+Install the latest version of xmobar (sudo version comes with all extensions).
 ```
 sudo apt-get install libiw-dev libasound2-dev libxpm-dev
-cabal install xmobar --flags="all_extensions"
+sudo apt-get install xmobar
 ```
 
 ### What to do with xmonad.hs and xmobar.hs?
