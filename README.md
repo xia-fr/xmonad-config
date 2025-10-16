@@ -128,8 +128,10 @@ gsettings set org.gnome.desktop.wm.preferences button-layout :
 
 I'm quite fond of Equilux, Nordic Darker, or Kripton (with a few modifications).
 
-Use `sudo apt-get install grub-customizer` to get the grub customizer to edit list entries. Install a nice
-grub theme off the internet. :)
+```
+sudo add-apt-repository ppa:danielrichter2007/grub-customizer
+sudo apt install grub-customizer
+```
 
 ### Dual boot time issue
 ```
