@@ -5,14 +5,24 @@ Start with a fresh install of Ubuntu 24.04 LTS.
 
 ### Installing xmonad and related things
 
-This is the base of the things you'll need to get xmonad+gnome to work.
-
+First we install xmonad.
 ```
-sudo apt-get install xmonad
-sudo add-apt-repository ppa:gekkio/xmonad
-sudo apt-get update
-sudo apt-get install gnome-session-xmonad
+apt-get install xmonad
 ```
+As the package for xmonad-gnome is no longer being maintained, we must generate the
+session files ourselves.
+```
+apt-get install gnome-session-flashback
+```
+- place the file `gnome-xmonad` in `/usr/libexec/`
+  - modified from `/usr/libexec/gnome-flashback-metacity`
+- place the file `session.conf` in `/usr/lib/systemd/user/gnome-session@gnome-xmonad.target.d/`
+  - modified from `/usr/lib/systemd/user/gnome-session@gnome-flashback-metacity.target.d/session.conf`
+  - you may have to create the folder `/usr/lib/systemd/user/gnome-session@gnome-xmonad.target.d/` yourself
+- place the file `gnome-xmonad.session` in `/usr/share/gnome-session/sessions/`
+  - modified from `/usr/share/gnome-session/sessions/gnome-flashback-metacity.session`
+- place the file `gnome-xmonad.desktop` in `/usr/share/xsessions`
+  - modified from `/usr/share/xsessions/gnome-flashback-metacity.desktop`  
 
 ### Additional things
 
