@@ -1,4 +1,4 @@
-# xmonad + gnome config (for Ubuntu 24.04 LTS)
+# xmonad + gnome config (updated for Ubuntu 24.04 LTS)
 
 ## Getting Started
 Start with a fresh install of Ubuntu 24.04 LTS.
@@ -42,15 +42,14 @@ apt-get install libasound2-dev libxpm-dev libmpd-dev
 cabal install xmobar -fall_extensions
 ```
 
-Note: I had to add the cabal bin files path to my `.bashrc` using
-```
-export PATH="${PATH}:${HOME}/.cabal/bin/"
-```
-to get the symlink to work.
+Note: I had to manually create the symlink for `xmobar` in my `~/.local/bin` folder to get
+xmonad to work nicely with it.
 
 ### To get to xmonad + gnome
 
-Log out, click on the gear, select the one that says xmonad + gnome. Log in. There are some things you will need to run (only once) to get various gnome panels out of the way of xmonad.
+Log out, click login, click on the gear in the bottom right of the screen, select the one that says xmonad + gnome. Log in. 
+
+### Some one-time fixes
 
 To get rid of the gnome-flashback panel:
 ```
@@ -61,11 +60,21 @@ To get rid of the desktop icons and the issue with the gnome desktop drawing ove
 gsettings set org.gnome.gnome-flashback root-background true
 gsettings set org.gnome.gnome-flashback desktop false
 ```
-## Miscellaneous
+To remove the navigational titlebar buttons so other people have no idea how to navigate your computer:
+```
+gsettings set org.gnome.desktop.wm.preferences button-layout :
+```
+To fix the time issue if you dual boot:
+```
+timedatectl set-local-rtc 1 --adjust-system-clock
+```
+
+## Miscellaneous preferemces
 
 ### Icon pack and fonts
 
-Install the papirus icon theme! Personally I am also particular to Inconsolata as a font.
+papirus icon theme 
+inconsolata
 
 ### Terminal appearance
 
@@ -125,15 +134,7 @@ Make it executable with `sudo chmod a+x '/home/<USER>/.local/bin/ssarea.sh'`
 gsettings set org.gnome.desktop.wm.preferences button-layout :
 ```
 ### GTK Themes/Grub Themes
-
-I'm quite fond of Equilux, Nordic Darker, or Kripton (with a few modifications).
-
 ```
 sudo add-apt-repository ppa:danielrichter2007/grub-customizer
 sudo apt install grub-customizer
-```
-
-### Dual boot time issue
-```
-timedatectl set-local-rtc 1 --adjust-system-clock
 ```
