@@ -3,13 +3,13 @@
 ## Getting Started
 Start with a fresh install of Ubuntu 24.04 LTS.
 
-### Installing xmonad and related things
+### Installing xmonad + gnome
 
 First we install xmonad.
 ```
 apt-get install xmonad
 ```
-As the package for xmonad-gnome is no longer being maintained, we must generate the
+As the package for xmonad-gnome is no longer being maintained, we must place the
 session files ourselves.
 ```
 apt-get install gnome-session-flashback
@@ -24,36 +24,39 @@ apt-get install gnome-session-flashback
 - place the file `gnome-xmonad.desktop` in `/usr/share/xsessions`
   - modified from `/usr/share/xsessions/gnome-flashback-metacity.desktop`  
 
-### Additional things
+### xmobar, dmenu, yeganesh
 
-These are some additional things that you'll need to get the xmonad config + xmobar config to work.
-
-Start by getting stack and suckless-tools. Suckless-tools gives you dmenu, cabal lets you install xmobar and yeganesh (useful wrapper for dmenu).
+Start by getting cabal and suckless-tools. Suckless-tools gives you dmenu, cabal lets you install xmobar and yeganesh (useful wrapper for dmenu).
 ```
-sudo apt-get install suckless-tools cabal-install
+apt-get install suckless-tools cabal-install
 cabal install yeganesh
 ```
 
-Install the latest version of xmobar (sudo version comes with all extensions).
+Install the latest version of xmobar (as referenced from xmobar documentation).
 ```
-sudo apt-get install libiw-dev libasound2-dev libxpm-dev
-sudo apt-get install xmobar
+# required C libraries
+apt-get install xorg-dev libxrandr-dev libpango1.0-dev
+# optional C libraries for additional plugins
+apt-get install libasound2-dev libxpm-dev libmpd-dev
+
+cabal install xmobar -fall_extensions
 ```
 
-### What to do with xmonad.hs and xmobar.hs?
-
-Put them in ~/.xmonad which is a directory you'll have to create yourself. The 'lib' folder also needs to go into the ~/.xmonad folder.
+Note: I had to add the cabal bin files path to my `.bashrc` using
+```
+export PATH="${PATH}:${HOME}/.cabal/bin/"
+```
+to get the symlink to work.
 
 ### To get to xmonad + gnome
 
-Log out, click on the gear, select the one that says xmonad + gnome. Log in. There are some things you will need to run (only once) to get various gnome 
-panels out of the way of xmonad.
+Log out, click on the gear, select the one that says xmonad + gnome. Log in. There are some things you will need to run (only once) to get various gnome panels out of the way of xmonad.
 
 To get rid of the gnome-flashback panel:
 ```
 dconf write /org/gnome/gnome-panel/layout/toplevel-id-list "['']"
 ```
-To get rid of the desktop icons and the issue with the gnome desktop drawing over xmonad/xmobar (this seems to be a 20.04 related issue):
+To get rid of the desktop icons and the issue with the gnome desktop drawing over xmonad/xmobar (this issue popped up in 20.04LTS):
 ```
 gsettings set org.gnome.gnome-flashback root-background true
 gsettings set org.gnome.gnome-flashback desktop false
