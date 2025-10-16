@@ -16,9 +16,8 @@ apt-get install gnome-session-flashback
 ```
 - place the file `gnome-xmonad` in `/usr/libexec/`
   - modified from `/usr/libexec/gnome-flashback-metacity`
-- place the file `session.conf` in `/usr/lib/systemd/user/gnome-session@gnome-xmonad.target.d/`
+- place `gnome-session@gnome-xmonad.target.d/session.conf` in `/usr/lib/systemd/user/`
   - modified from `/usr/lib/systemd/user/gnome-session@gnome-flashback-metacity.target.d/session.conf`
-  - you may have to create the folder `/usr/lib/systemd/user/gnome-session@gnome-xmonad.target.d/` yourself
 - place the file `gnome-xmonad.session` in `/usr/share/gnome-session/sessions/`
   - modified from `/usr/share/gnome-session/sessions/gnome-flashback-metacity.session`
 - place the file `gnome-xmonad.desktop` in `/usr/share/xsessions`
@@ -26,10 +25,9 @@ apt-get install gnome-session-flashback
 
 ### xmobar, dmenu, yeganesh
 
-Start by getting cabal and suckless-tools. Suckless-tools gives you dmenu, cabal lets you install xmobar and yeganesh (useful wrapper for dmenu).
+Start by getting cabal and suckless-tools. Suckless-tools gives you dmenu, cabal lets you install xmobar.
 ```
 apt-get install suckless-tools cabal-install
-cabal install yeganesh
 ```
 
 Install the latest version of xmobar (as referenced from xmobar documentation).
@@ -80,7 +78,7 @@ To import gnome terminal profile, run:
 ```
 dconf load /org/gnome/terminal/legacy/profiles:/ < NAME_OF_FILE.dconf
 ```
-To get rid of the enormous headerbar,
+To get rid of the enormous terminal headerbar,
 ```
 gsettings set org.gnome.Terminal.Legacy.Settings headerbar false
 ```

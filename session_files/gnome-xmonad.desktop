@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=GNOME + XMonad
+Comment=This session logs you into GNOME + XMonad
+Exec=/usr/libexec/gnome-xmonad
+TryExec=xmonad
+Type=Application
+DesktopNames=GNOME-Flashback;GNOME;
+X-Ubuntu-Gettext-Domain=gnome-flashback
