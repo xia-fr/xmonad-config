@@ -1,8 +1,7 @@
-# xmonad + gnome config (for Ubuntu 20.04 LTS)
+# xmonad + gnome config (for Ubuntu 24.04 LTS)
 
 ## Getting Started
-
-We begin here with a fresh install of Ubuntu 20.04 LTS. After doing some basic updating of packages, etc., we just need to install some things to get going with xmonad + gnome.
+Start with a fresh install of Ubuntu 24.04 LTS.
 
 ### Installing xmonad and related things
 
@@ -19,29 +18,16 @@ sudo apt-get install gnome-session-xmonad
 
 These are some additional things that you'll need to get the xmonad config + xmobar config to work.
 
-Start by getting stack and suckless-tools. Suckless-tools gives you dmenu, stack lets you install xmobar and yeganesh (useful wrapper thing for dmenu).
+Start by getting stack and suckless-tools. Suckless-tools gives you dmenu, cabal lets you install xmobar and yeganesh (useful wrapper for dmenu).
 ```
 sudo apt-get install suckless-tools cabal-install
-sudo apt-get install haskell-stack
-stack update
-stack upgrade
-stack setup
+cabal install yeganesh
 ```
-Install yeganesh.
-```
-stack install yeganesh
-```
+
 Install the latest version of xmobar.
 ```
-sudo apt-get install libiw-dev
-stack install --flag xmobar:all_extensions xmobar
-```
-Note the xmobar install might tell you to add some stuff to your stack.yaml file. Just follow those instructions.
-(stack.yaml should be located in ~/.stack/global-project)
-Might also need:
-```
-sudo apt install libasound2-dev
-sudo apt install libxpm-dev
+sudo apt-get install libiw-dev libasound2-dev libxpm-dev
+cabal install xmobar --flags="all_extensions"
 ```
 
 ### What to do with xmonad.hs and xmobar.hs?
