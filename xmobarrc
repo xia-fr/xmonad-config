@@ -32,7 +32,7 @@ Config {
 
   , commands = 
     [ Run Memory     
-      [ "--template" ,"M <usedratio>"
+      [ "--template" ,"mem <usedratio>%"
       , "--Low"      , "20"        -- units: %
       , "--High"     , "90"        -- units: %
       , "--low"      , "#87AFAF"
@@ -48,6 +48,8 @@ Config {
       , "--normal"   , "#AFD7D7"
       , "--high"     , "#87AFAF"
       , "--" -- battery specific options below
+      -- charging status
+      , "-O"   , "On (<left>)"
       -- discharging status
       , "-o"	 , "<left>" 
       -- charged status
@@ -56,7 +58,7 @@ Config {
                 
     -- cpu		
     , Run MultiCoreTemp  
-      [ "--template" , "CPU <max>°C"
+      [ "--template" , "cpu <max>°C"
       , "--Low"	    , "60"
       , "--High"     , "80"
       , "--low"      , "#87AFAF"
@@ -79,9 +81,8 @@ Config {
       ] 18000
       
     -- wireless network monitor
-    -- Can replace W: with <ssid> for wifi name
     , Run Wireless "" 
-      [ "--template" , "W <qualitybar>"
+      [ "--template" , "<ssid> <qualitybar>"
       , "--Low"      , "20"
       , "--High"     , "80"
       , "--low"      , "#AF8787"
